@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eyesfly.mapper.ResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.eyesfly.entity.Resource" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="PRIORITY" property="priority" jdbcType="DECIMAL" />
+    <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
+    <result column="PERMISSION" property="permission" jdbcType="VARCHAR" />
+    <result column="IS_AVAILABLE" property="isAvailable" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, URL, TYPE, PRIORITY, PARENT_ID, PERMISSION, IS_AVAILABLE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_RESOURCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SYS_RESOURCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.eyesfly.entity.Resource" >
+    insert into SYS_RESOURCE (ID, NAME, URL, 
+      TYPE, PRIORITY, PARENT_ID, 
+      PERMISSION, IS_AVAILABLE)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{priority,jdbcType=DECIMAL}, #{parentId,jdbcType=DECIMAL}, 
+      #{permission,jdbcType=VARCHAR}, #{isAvailable,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eyesfly.entity.Resource" >
+    insert into SYS_RESOURCE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
+      <if test="permission != null" >
+        PERMISSION,
+      </if>
+      <if test="isAvailable != null" >
+        IS_AVAILABLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=DECIMAL},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="isAvailable != null" >
+        #{isAvailable,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eyesfly.entity.Resource" >
+    update SYS_RESOURCE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=DECIMAL},
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="permission != null" >
+        PERMISSION = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="isAvailable != null" >
+        IS_AVAILABLE = #{isAvailable,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eyesfly.entity.Resource" >
+    update SYS_RESOURCE
+    set NAME = #{name,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      PRIORITY = #{priority,jdbcType=DECIMAL},
+      PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      PERMISSION = #{permission,jdbcType=VARCHAR},
+      IS_AVAILABLE = #{isAvailable,jdbcType=CHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+
+  <select id="findPermissions" resultType="java.lang.String" parameterType="java.lang.String">
+      select res.permission permission from sys_role_resource rr
+      left join sys_role role on role.id = rr.role_id
+      left join sys_resource res on res.id = rr.resource_id
+      left join sys_role_user ruser on ruser.role_id = rr.role_id left join sys_user us on us.id = ruser.user_id where us.username = #{username,jdbcType=VARCHAR}
+  </select>
+</mapper>
