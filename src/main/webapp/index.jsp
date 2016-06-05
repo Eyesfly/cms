@@ -138,7 +138,8 @@
   <div data-options="region:'west',split:true" title="" style="width:100px;">
 
     <a onclick="mainAddTab('查看用户列表','<%=request.getContextPath()%>/user/list.ht');" href="#">查看用户列表</a><br/>
-    <a onclick="mainAddTab('权限管理','<%=request.getContextPath()%>/role/permission.ht');" href="#">权限管理</a>
+    <a onclick="mainAddTab('权限管理','<%=request.getContextPath()%>/role/permission.ht');" href="#">权限管理</a><br/>
+    <a onclick="mainAddTab('即时通信','<%=request.getContextPath()%>/websocket.html');" href="#">即时通信</a>
   </div>
   <div data-options="region:'center',title:''">
     <div class="easyui-tabs" id="layoutMainTabs" fit="true" border="false" >
